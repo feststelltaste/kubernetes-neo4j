@@ -30,7 +30,7 @@ spec:
         ports:
         - containerPort: 7474
           name: browser
-		- containerPort: 7475
+        - containerPort: 7475
           name: browserssl
         - containerPort: 7687
           name: bolt
@@ -48,4 +48,4 @@ spec:
         storageClassName: "standard"
         resources:
           requests:
-			storage: "10Gi"
+            storage: "10Gi"

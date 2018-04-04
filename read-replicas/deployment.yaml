@@ -4,14 +4,14 @@ metadata:
   name: "neo4j"
   labels:
     app: neo4j
-    component: replica
+    component: single
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         app: neo4j
-        component: replica
+        component: single
     spec:
       containers:
       - name: neo4j
@@ -19,7 +19,7 @@ spec:
         imagePullPolicy: "IfNotPresent"
         env:
           - name: NEO4J_dbms_mode
-            value: READ_REPLICA
+            value: SINGLE
           - name: NEO4J_dbms_security_auth__enabled
             value: "false"
           - name: NEO4J_ACCEPT_LICENSE_AGREEMENT
@@ -33,6 +33,8 @@ spec:
         ports:
         - containerPort: 7474
           name: browser
+        - containerPort: 7475
+          name: browserssl
         - containerPort: 7687
           name: bolt
         - containerPort: 6000

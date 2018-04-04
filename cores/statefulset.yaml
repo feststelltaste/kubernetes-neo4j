@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: neo4j
-        image: "neo4j:3.2.9"
+        image: "neo4j:3.3.3"
         imagePullPolicy: "IfNotPresent"
         env:
           - name: NEO4J_dbms_mode

@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: neo4j-single
 spec:
-  serviceName: neo4j
   template:
     metadata:
       labels:

@@ -1,0 +1,51 @@
+apiVersion: "apps/v1beta1"
+kind: Deployment
+metadata:
+  name: neo4j-single
+spec:
+  serviceName: neo4j
+  template:
+    metadata:
+      labels:
+        app: neo4j
+        component: single
+    spec:
+      containers:
+      - name: neo4j
+        image: "neo4j:3.3.3"
+        imagePullPolicy: "IfNotPresent"
+        env:
+          - name: NEO4J_dbms_mode
+            value: SINGLE
+          - name: NEO4J_dbms_security_auth__enabled
+            value: "false"
+          - name: NEO4J_ACCEPT_LICENSE_AGREEMENT
+            value: "yes"
+        command:
+          - "/bin/bash"
+          - "-ecx"
+          - |
+            export NEO4J_dbms_connectors_default__advertised__address=$(hostname -f)
+            exec /docker-entrypoint.sh "neo4j"
+        ports:
+        - containerPort: 7474
+          name: browser
+		- containerPort: 7475
+          name: browserssl
+        - containerPort: 7687
+          name: bolt
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: datadir
+          mountPath: "/data"
+  volumeClaimTemplates:
+    - metadata:
+        name: datadir
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: "standard"
+        resources:
+          requests:
+			storage: "10Gi"
